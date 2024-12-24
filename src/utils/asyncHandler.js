@@ -1,8 +1,8 @@
 // This function is a utility for handling asynchronous operations in Express route handlers.
 // It wraps asynchronous route handlers to handle errors automatically by passing them to the Express error handler.
-const asynHandler = (requestHandler) => {
+const asyncHandler = (requestHandler) => {
     // Return a new middleware function that takes req (request), res (response), and next (next middleware).
-    (req, res, next) => {
+    return (req, res, next) => {
         // Use Promise.resolve to ensure the requestHandler executes as a promise.
         // If the requestHandler resolves successfully, nothing further is done.
         // If it rejects (throws an error), the error is caught in the next step.
@@ -18,7 +18,7 @@ const asynHandler = (requestHandler) => {
 
 // Export the asynHandler function so it can be imported and used in other modules.
 // This is part of ES6 module syntax.
-export { asynHandler };
+export { asyncHandler };
 
 
 

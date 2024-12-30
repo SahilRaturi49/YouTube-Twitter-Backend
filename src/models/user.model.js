@@ -24,7 +24,7 @@ const userSchema = new Schema(
             lowercase: true, // Converts the value to lowercase before storing.
             trim: true // Removes whitespace from the beginning and end.
         },
-        fullname: {
+        fullName: {
             type: String, // Full name of the user.
             required: true, // Mandatory field.
             trim: true, // Removes whitespace from the beginning and end.

@@ -254,7 +254,7 @@ const refreshAccessToken = asyncHandler(async(req, res) =>{
 
 })
 
-const changecurrentPassword = asyncHandler(async(req, res) => {
+const changeCurrentPassword = asyncHandler(async(req, res) => {
 
     const {oldPassword, newPassword} = req.body
     
@@ -281,7 +281,7 @@ const getCurrentUser = asyncHandler(async(req,res) => {
         "current user fetched successfully"))
 })
 
-const updateaccountdetails = asyncHandler(async(req, res) =>{
+const updateAccountDetails = asyncHandler(async(req, res) =>{
     const {fullName, email} = req.body
 
     if(!fullName || !email){
@@ -507,9 +507,9 @@ export {
     loginUser,
     logoutUser,
     refreshAccessToken,
-    changecurrentPassword,
+    changeCurrentPassword,
     getCurrentUser,
-    updateaccountdetails,
+    updateAccountDetails,
     updateUserAvatar,
     updateUserCoverImage,
     getUserChannelProfile,

@@ -181,8 +181,8 @@ const logoutUser = asyncHandler(async(req, res) => {
         {
             // mongodb operator 
             // set will give a objecct and update all the values provided to set
-            $set: {
-                refreshToken: undefined
+            $unset: {
+                refreshToken: 1
             }
         },
         {
@@ -207,9 +207,12 @@ const logoutUser = asyncHandler(async(req, res) => {
 // refresh access token end point
 const refreshAccessToken = asyncHandler(async(req, res) =>{
     // calling refresh token
-    const incomingRefreshToken = req.cookies.refreshToken || req.body.refreshToken
+    const incomingRefreshToken = req.cookies.refreshToken || 
+    req.body.refreshToken
 
-    if(!incomingRefreshToken){
+    console.log("Incoming Refresh Token:", incomingRefreshToken);
+
+    if (!incomingRefreshToken) {
         throw new ApiError(401, "unauthorized request")
     }
 
@@ -239,12 +242,12 @@ const refreshAccessToken = asyncHandler(async(req, res) =>{
     
         return res
         .status(200)
-        .cookie("accessToken",accessToken, options)
+        .cookie("accessToken", accessToken, options)
         .cookie("refreshToken", newRefreshToken, options)
         .json(
             new ApiResponse(
                 200,
-                {accessToken, newRefreshToken: newRefreshToken},
+                {accessToken, refreshToken: newRefreshToken},
                 "Access token refreshed"
             )
         )
@@ -253,6 +256,55 @@ const refreshAccessToken = asyncHandler(async(req, res) =>{
     }
 
 })
+
+
+// const refreshAccessToken = asyncHandler(async (req, res) => {
+//     const incomingRefreshToken = req.cookies.refreshToken || req.body.refreshToken
+
+//     if (!incomingRefreshToken) {
+//         throw new ApiError(401, "unauthorized request")
+//     }
+
+//     try {
+//         const decodedToken = jwt.verify(
+//             incomingRefreshToken,
+//             process.env.REFRESH_TOKEN_SECRET
+//         )
+    
+//         const user = await User.findById(decodedToken?._id)
+    
+//         if (!user) {
+//             throw new ApiError(401, "Invalid refresh token")
+//         }
+    
+//         if (incomingRefreshToken !== user?.refreshToken) {
+//             throw new ApiError(401, "Refresh token is expired or used")
+            
+//         }
+    
+//         const options = {
+//             httpOnly: true,
+//             secure: true
+//         }
+    
+//         const {accessToken, newRefreshToken} = await generateAccessAndRefereshTokens(user._id)
+    
+//         return res
+//         .status(200)
+//         .cookie("accessToken", accessToken, options)
+//         .cookie("refreshToken", newRefreshToken, options)
+//         .json(
+//             new ApiResponse(
+//                 200, 
+//                 {accessToken, refreshToken: newRefreshToken},
+//                 "Access token refreshed"
+//             )
+//         )
+//     } catch (error) {
+//         throw new ApiError(401, error?.message || "Invalid refresh token")
+//     }
+
+// })
 
 const changeCurrentPassword = asyncHandler(async(req, res) => {
 
@@ -267,6 +319,7 @@ const changeCurrentPassword = asyncHandler(async(req, res) => {
 
     user.password = newPassword
     await user.save({validateBeforeSave: false})
+
     return res
     .status(200)
     .json(new ApiResponse(200, {}, "Password changed successfully"))
@@ -494,7 +547,7 @@ const getWatchHistory = asyncHandler(async(req, res) => {
         new ApiResponse(
             200,
             user[0].watchHistory,
-            "Watch historu fetched successfully"
+            "Watch history fetched successfully"
         )
     )
 })

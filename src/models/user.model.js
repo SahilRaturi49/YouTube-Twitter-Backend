@@ -35,7 +35,8 @@ const userSchema = new Schema(
             required: true // Mandatory field.
         },
         coverImage: {
-            type: String, // Stores the URL of the user's cover image (optional).
+            public_id: String,
+            url: String,
         },
         watchHistory: [
             {

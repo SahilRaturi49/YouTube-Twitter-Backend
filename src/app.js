@@ -1,6 +1,8 @@
 // Importing the 'express' module to create an Express application
 // Express is a minimal and flexible Node.js framework for building web applications and APIs
 import express from "express";
+import videoRouter from './routes/video.routes.js';
+
 
 // Importing 'cookie-parser' middleware to parse cookies in incoming requests
 // This allows server-side access to cookies sent by the client
@@ -12,6 +14,9 @@ import cors from "cors";
 
 // Creating an instance of the Express application
 const app = express();
+
+app.use("/api/v1/video", videoRouter);
+
 
 // Configuring CORS middleware
 app.use(cors({

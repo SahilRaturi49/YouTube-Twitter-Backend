@@ -57,7 +57,7 @@ Model	click here
   <li>Node.js</li>
   <li>Express.js</li>
   <li>MongoDB</li>
-  <li>Cloudinary (must have an account)</li>
+  <li>Cloudinary</li>
 </ul>
 
 
